@@ -12,9 +12,9 @@ export default function Home() {
           <button className="bg-white text-[#1A5FAF] text-sm font-semibold px-4 py-2 rounded-full">
             Entrar
           </button>
-          <button className="bg-[#5CB840] text-white text-sm font-semibold px-4 py-2 rounded-full">
-            Registro
-          </button>
+          <a href="/registro" className="bg-[#5CB840] text-white text-sm font-semibold px-4 py-2 rounded-full">
+  Registro
+</a>
         </div>
       </header>
 
@@ -29,9 +29,9 @@ export default function Home() {
         <p className="text-[#D0E4F7] text-sm mb-6">
           La plataforma de emparejamiento para torneos de pádel juvenil. Solo ven tu perfil quienes también buscan pareja.
         </p>
-        <button className="bg-[#5CB840] text-white font-bold px-8 py-3 rounded-full text-base w-full max-w-xs">
-          Empezar gratis
-        </button>
+        <a href="/registro" className="bg-[#5CB840] text-white font-bold px-8 py-3 rounded-full text-base w-full max-w-xs text-center">
+  Empezar gratis
+</a>
       </section>
 
       {/* 3 BENEFICIOS */}
@@ -89,9 +89,9 @@ export default function Home() {
       <section className="bg-[#1A5FAF] px-6 py-10 text-center">
         <h2 className="text-white font-bold text-xl mb-2">¿Listo para encontrar pareja?</h2>
         <p className="text-[#D0E4F7] text-sm mb-6">Gratis para empezar. Sin tarjeta de crédito.</p>
-        <button className="bg-[#5CB840] text-white font-bold px-8 py-3 rounded-full text-base w-full max-w-xs">
-          Crear cuenta gratis
-        </button>
+        <a href="/registro" className="bg-[#5CB840] text-white font-bold px-8 py-3 rounded-full text-base w-full max-w-xs text-center">
+  Crear cuenta gratis
+</a>
       </section>
 
       {/* FOOTER */}
