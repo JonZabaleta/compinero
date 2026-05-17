@@ -56,15 +56,15 @@ export default function Dashboard() {
         <h2 className="text-[#1A5FAF] font-bold text-lg mb-4">¿Qué quieres hacer?</h2>
 
         <div className="flex flex-col gap-3">
-          <button className="bg-white border-2 border-[#1A5FAF] rounded-2xl p-5 text-left">
+          <a href="/perfil-jugador" className="bg-white border-2 border-[#1A5FAF] rounded-2xl p-5 text-left"></a>
             <p className="text-[#1A5FAF] font-bold text-base mb-1">👤 Crear perfil de jugador</p>
             <p className="text-gray-400 text-sm">Añade los datos de tu hijo/a o jugador</p>
-          </button>
+          </a>
 
-          <button className="bg-white border-2 border-[#D0E4F7] rounded-2xl p-5 text-left opacity-50">
-            <p className="text-[#1A5FAF] font-bold text-base mb-1">🏆 Buscar pareja para torneo</p>
-            <p className="text-gray-400 text-sm">Primero crea un perfil de jugador</p>
-          </button>
+          <a href="/apuntarse" className="bg-white border-2 border-[#D0E4F7] rounded-2xl p-5 text-left">
+  <p className="text-[#1A5FAF] font-bold text-base mb-1">🏆 Buscar pareja para torneo</p>
+  <p className="text-gray-400 text-sm">Apúntate a un torneo y encuentra pareja</p>
+</a>
 
           <button className="bg-white border-2 border-[#D0E4F7] rounded-2xl p-5 text-left opacity-50">
             <p className="text-[#1A5FAF] font-bold text-base mb-1">💬 Mis mensajes</p>
