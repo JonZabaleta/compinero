@@ -66,10 +66,10 @@ export default function Dashboard() {
     <p className="text-gray-400 text-sm">Apúntate a un torneo y encuentra pareja</p>
   </a>
 
-          <button className="bg-white border-2 border-[#D0E4F7] rounded-2xl p-5 text-left opacity-50">
-            <p className="text-[#1A5FAF] font-bold text-base mb-1">💬 Mis mensajes</p>
-            <p className="text-gray-400 text-sm">No tienes mensajes todavía</p>
-          </button>
+          <a href="/chat" className="bg-white border-2 border-[#D0E4F7] rounded-2xl p-5 text-left">
+  <p className="text-[#1A5FAF] font-bold text-base mb-1">💬 Mis mensajes</p>
+  <p className="text-gray-400 text-sm">Ver tus conversaciones</p>
+</a>
         </div>
 
       </div>
