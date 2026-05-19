@@ -127,9 +127,13 @@ export default function Buscar() {
             {jugadores.map((ins: any) => (
               <div key={ins.id} className="bg-white rounded-2xl p-5 shadow-sm border border-[#D0E4F7]">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 bg-[#1A5FAF] rounded-full flex items-center justify-center text-white font-bold text-lg">
-                    {ins.jugadores?.nombre?.[0]}{ins.jugadores?.apellidos?.[0]}
-                  </div>
+                  {ins.jugadores?.foto_url ? (
+  <img src={ins.jugadores.foto_url} alt="Foto" className="w-12 h-12 rounded-full object-cover" />
+) : (
+  <div className="w-12 h-12 bg-[#1A5FAF] rounded-full flex items-center justify-center text-white font-bold text-lg">
+    {ins.jugadores?.nombre?.[0]}{ins.jugadores?.apellidos?.[0]}
+  </div>
+)}
                   <div>
                     <p className="text-[#1A5FAF] font-bold">{ins.jugadores?.nombre} {ins.jugadores?.apellidos}</p>
                     <p className="text-gray-400 text-xs">{ins.jugadores?.comunidad} · {ins.jugadores?.anio_nacimiento}</p>

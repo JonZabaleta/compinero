@@ -25,11 +25,27 @@ export default function PerfilJugador() {
   const [lado, setLado] = useState('')
   const [descripcion, setDescripcion] = useState('')
   const [mensaje, setMensaje] = useState('')
-  const [nivelTecnico, setNivelTecnico] = useState('')
+  const [foto, setFoto] = useState<File | null>(null)
+const [fotoUrl, setFotoUrl] = useState('')
+const [subiendoFoto, setSubiendoFoto] = useState(false)
+const [nivelTecnico, setNivelTecnico] = useState('')
   const [cargando, setCargando] = useState(false)
 
   async function handleGuardar() {
-    setCargando(true)
+    let urlFoto = ''
+if (foto) {
+  setSubiendoFoto(true)
+  const { data: { user } } = await supabase.auth.getUser()
+  const nombreArchivo = `${user?.id}_${Date.now()}.${foto.name.split('.').pop()}`
+  const { error: errorFoto } = await supabase.storage
+    .from('fotos-jugadores')
+    .upload(nombreArchivo, foto)
+  if (!errorFoto) {
+    const { data } = supabase.storage.from('fotos-jugadores').getPublicUrl(nombreArchivo)
+    urlFoto = data.publicUrl
+  }
+  setSubiendoFoto(false)
+}setCargando(true)
     setMensaje('')
 
     const { data: { user } } = await supabase.auth.getUser()
@@ -49,6 +65,7 @@ export default function PerfilJugador() {
       lado_preferido: lado,
       descripcion,
       nivel_tecnico: nivelTecnico || null,
+      foto_url: urlFoto || null,
       user_id: user.id,
     })
 
@@ -134,7 +151,24 @@ export default function PerfilJugador() {
               {LADOS.map(l => <option key={l} value={l}>{l}</option>)}
             </select>
           </div>
-
+<div>
+  <label className="text-[#1A5FAF] font-bold text-sm mb-1 block">Foto del jugador/a</label>
+  {fotoUrl && (
+    <img src={fotoUrl} alt="Foto" className="w-24 h-24 rounded-full object-cover mb-2" />
+  )}
+  <input
+    type="file"
+    accept="image/*"
+    onChange={e => {
+      const file = e.target.files?.[0]
+      if (file) {
+        setFoto(file)
+        setFotoUrl(URL.createObjectURL(file))
+      }
+    }}
+    className="w-full border border-[#D0E4F7] rounded-xl px-4 py-3 text-sm"
+  />
+</div>
           <div>
             <label className="text-[#1A5FAF] font-bold text-sm mb-1 block">Descripción</label>
             <textarea value={descripcion} onChange={e => setDescripcion(e.target.value)}
