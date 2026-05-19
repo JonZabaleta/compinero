@@ -53,26 +53,30 @@ export default function Dashboard() {
           </span>
         </div>
 
-        <h2 className="text-[#1A5FAF] font-bold text-lg mb-4">¿Qué quieres hacer?</h2>
+    <h2 className="text-[#1A5FAF] font-bold text-lg mb-4">¿Qué quieres hacer?</h2>
 
-        <div className="flex flex-col gap-3">
+<div className="flex flex-col gap-3">
   <a href="/perfil-jugador" className="bg-white border-2 border-[#1A5FAF] rounded-2xl p-5 text-left">
     <p className="text-[#1A5FAF] font-bold text-base mb-1">👤 Crear perfil de jugador</p>
     <p className="text-gray-400 text-sm">Añade los datos de tu hijo/a o jugador</p>
   </a>
 
-  <a href="/apuntarse" className="bg-white border-2 border-[#D0E4F7] rounded-2xl p-5 text-left">
-    <p className="text-[#1A5FAF] font-bold text-base mb-1">🏆 Buscar pareja para torneo</p>
-    <p className="text-gray-400 text-sm">Apúntate a un torneo y encuentra pareja</p>
+  <a href="/apuntarse" className="bg-white border-2 border-[#5CB840] rounded-2xl p-5 text-left">
+    <p className="text-[#5CB840] font-bold text-base mb-1">🎾 Apuntarme a un torneo</p>
+    <p className="text-gray-400 text-sm">Deja que otros te encuentren como pareja</p>
   </a>
 
-          <a href="/chat" className="bg-white border-2 border-[#D0E4F7] rounded-2xl p-5 text-left">
-  <p className="text-[#1A5FAF] font-bold text-base mb-1">💬 Mis mensajes</p>
-  <p className="text-gray-400 text-sm">Ver tus conversaciones</p>
-</a>
-        </div>
+  <a href="/buscar" className="bg-white border-2 border-[#D0E4F7] rounded-2xl p-5 text-left">
+    <p className="text-[#1A5FAF] font-bold text-base mb-1">🔍 Buscar pareja para torneo</p>
+    <p className="text-gray-400 text-sm">Ver quién más busca pareja en tu torneo</p>
+  </a>
 
-      </div>
+  <a href="/chat" className="bg-white border-2 border-[#D0E4F7] rounded-2xl p-5 text-left">
+    <p className="text-[#1A5FAF] font-bold text-base mb-1">💬 Mis mensajes</p>
+    <p className="text-gray-400 text-sm">Ver tus conversaciones</p>
+  </a>
+</div>
+</div>
     </main>
   )
 }
