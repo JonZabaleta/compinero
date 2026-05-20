@@ -9,7 +9,7 @@ export default function Home() {
           
         </div>
         <div className="flex gap-2">
-          // ✅ DESPUÉS
+        
 <a href="/login" className="bg-[#5CB840] text-white text-sm font-semibold px-4 py-2 rounded-full">
   Entrar
 </a>
