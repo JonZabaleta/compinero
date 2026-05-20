@@ -4,14 +4,19 @@ import { useEffect, useState } from 'react'
 import { supabase } from '../supabase'
 
 export default function Dashboard() {
-  const [usuario, setUsuario] = useState<any>(null)
+  const [usuario, setUsuario] = useState<any>(null)const [mensajesNuevos, setMensajesNuevos] = useState(0)
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       if (!data.user) {
         window.location.href = '/login'
       } else {
-        setUsuario(data.user)
+        setUsuario(data.user)const { count } = await supabase
+  .from('mensajes')
+  .select('*', { count: 'exact', head: true })
+  .eq('para_user_id', data.user.id)
+  .eq('leido', false)
+setMensajesNuevos(count || 0)
       }
     })
   }, [])
@@ -72,7 +77,14 @@ export default function Dashboard() {
   </a>
 
   <a href="/chat" className="bg-white border-2 border-[#D0E4F7] rounded-2xl p-5 text-left">
-    <p className="text-[#1A5FAF] font-bold text-base mb-1">💬 Mis mensajes</p>
+    <div className="flex items-center justify-between">
+      <p className="text-[#1A5FAF] font-bold text-base mb-1">💬 Mis mensajes</p>
+      {mensajesNuevos > 0 && (
+        <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+          {mensajesNuevos}
+        </span>
+      )}
+    </div>
     <p className="text-gray-400 text-sm">Ver tus conversaciones</p>
   </a>
 </div>

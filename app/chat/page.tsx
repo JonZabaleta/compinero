@@ -63,6 +63,11 @@ if (paraUserId && jugadorParaId) {
       .or(`and(de_user_id.eq.${usuarioActual.id},para_user_id.eq.${conv.userId}),and(de_user_id.eq.${conv.userId},para_user_id.eq.${usuarioActual.id})`)
       .order('created_at', { ascending: true })
     if (data) setMensajes(data)
+    await supabase
+      .from('mensajes')
+      .update({ leido: true })
+      .eq('para_user_id', usuarioActual.id)
+      .eq('de_user_id', conv.userId)
   }
 
   async function handleEnviar() {
