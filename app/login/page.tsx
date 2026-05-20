@@ -77,12 +77,18 @@ export default function Login() {
           {cargando ? 'Entrando...' : 'Entrar'}
         </button>
 
-        <p className="text-center text-gray-500 text-sm">
-          ¿No tienes cuenta?{' '}
-          <a href="/registro" className="text-[#5CB840] font-bold">
-            Regístrate gratis
-          </a>
-        </p>
+        <p className="text-center text-gray-500 text-sm mb-3">
+  <a href="/forgot-password" className="text-[#1A5FAF] font-bold">
+    ¿Olvidaste tu contraseña?
+  </a>
+</p>
+
+<p className="text-center text-gray-500 text-sm">
+  ¿No tienes cuenta?{' '}
+  <a href="/registro" className="text-[#5CB840] font-bold">
+    Regístrate gratis
+  </a>
+</p>
 
       </div>
     </main>
