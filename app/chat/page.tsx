@@ -15,7 +15,18 @@ export default function Chat() {
     async function cargar() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { window.location.href = '/login'; return }
-      setUsuarioActual(user)
+      setUsuarioActual(user)// Si venimos desde buscar, abrir chat directamente
+const params = new URLSearchParams(window.location.search)
+const paraUserId = params.get('para')
+const jugadorParaId = params.get('jugador')
+if (paraUserId && jugadorParaId) {
+  const { data: jug } = await supabase
+    .from('jugadores')
+    .select('nombre,apellidos')
+    .eq('id', jugadorParaId)
+    .single()
+  setChatActivo({ userId: paraUserId, jugadorId: jugadorParaId, jugador: jug })
+}
 
       const { data } = await supabase
         .from('mensajes')

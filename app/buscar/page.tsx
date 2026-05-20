@@ -169,7 +169,7 @@ useEffect(() => {
                 {ins.jugadores?.descripcion && (
                   <p className="text-gray-500 text-sm">{ins.jugadores?.descripcion}</p>
                 )}
-                <a href={`/chat`} className="w-full mt-3 bg-[#1A5FAF] text-white font-bold py-2 rounded-full text-sm flex items-center justify-center">
+                <a href={`/chat?para=${ins.jugadores?.user_id}&jugador=${ins.jugador_id}`} className="w-full mt-3 bg-[#1A5FAF] text-white font-bold py-2 rounded-full text-sm flex items-center justify-center">
   💬 Contactar
 </a>
               </div>
