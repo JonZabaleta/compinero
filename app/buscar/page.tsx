@@ -16,11 +16,28 @@ export default function Buscar() {
   const [buscando, setBuscando] = useState(false)
   const [buscado, setBuscado] = useState(false)
 
-  useEffect(() => {
-    supabase.from('torneos').select('*').eq('activo', true).then(({ data }) => {
-      if (data) setTorneos(data)
-    })
-  }, [])
+ useEffect(() => {
+  supabase.from('torneos').select('*').eq('activo', true).then(({ data }) => {
+    if (data) {
+      setTorneos(data)
+      const params = new URLSearchParams(window.location.search)
+      const torneoId = params.get('torneo')
+      const cat = params.get('categoria')
+      if (torneoId && cat && data) {
+        const torneo = data.find((t: any) => t.id === parseInt(torneoId))
+        if (torneo) {
+          setTorneoSeleccionado(torneo)
+          setCategoria(cat)
+        }
+      }
+    }
+  })
+}, [])
+useEffect(() => {
+  if (torneoSeleccionado && categoria) {
+    handleBuscar()
+  }
+}, [torneoSeleccionado, categoria])
 
   async function handleBuscar() {
   if (!torneoSeleccionado || !categoria) return

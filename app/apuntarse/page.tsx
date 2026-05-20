@@ -31,29 +31,43 @@ export default function Apuntarse() {
     cargar()
   }, [])
 
-  async function handleApuntarse() {
-    if (!torneoSeleccionado || !categoria || !jugadorSeleccionado) return
-    setCargando(true)
-    setMensaje('')
+async function handleApuntarse() {
+  if (!torneoSeleccionado || !categoria || !jugadorSeleccionado) return
+  setCargando(true)
+  setMensaje('')
 
-    const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
 
-    const { error } = await supabase.from('inscripciones').insert({
-      user_id: user?.id,
-      jugador_id: jugadorSeleccionado.id,
-      torneo_id: torneoSeleccionado.id,
-      categoria,
-      busca_pareja: true
-    })
+  const { data: existing } = await supabase
+    .from('inscripciones')
+    .select('id')
+    .eq('jugador_id', jugadorSeleccionado.id)
+    .eq('torneo_id', torneoSeleccionado.id)
+    .eq('categoria', categoria)
+    .maybeSingle()
 
-    if (error) {
-      setMensaje('Error: ' + error.message)
-    } else {
-      setMensaje('¡Te has apuntado! Ya apareces en la búsqueda.')
-      setTimeout(() => window.location.href = '/buscar', 2000)
-    }
+  if (existing) {
+    setMensaje('⚠️ Este jugador ya está apuntado a este torneo en esta categoría.')
     setCargando(false)
+    return
   }
+
+  const { error } = await supabase.from('inscripciones').insert({
+    user_id: user?.id,
+    jugador_id: jugadorSeleccionado.id,
+    torneo_id: torneoSeleccionado.id,
+    categoria,
+    busca_pareja: true
+  })
+
+  if (error) {
+    setMensaje('Error: ' + error.message)
+  } else {
+    setMensaje('¡Te has apuntado! Ya apareces en la búsqueda.')
+    setTimeout(() => window.location.href = `/buscar?torneo=${torneoSeleccionado.id}&categoria=${categoria}`, 2000)
+  }
+  setCargando(false)
+}
 
   return (
     <main className="min-h-screen bg-[#F4F8FF] flex flex-col">
@@ -76,16 +90,26 @@ export default function Apuntarse() {
             <div className="flex flex-col gap-2">
               {jugadores.map(j => (
                 <button key={j.id} onClick={() => setJugadorSeleccionado(j)}
-                  className={`p-4 rounded-2xl border-2 text-left ${
-                    jugadorSeleccionado?.id === j.id
-                      ? 'border-[#1A5FAF] bg-[#1A5FAF] text-white'
-                      : 'border-[#D0E4F7] bg-white text-[#1A5FAF]'
-                  }`}>
-                  <p className="font-bold text-sm">{j.nombre} {j.apellidos}</p>
-                  <p className={`text-xs mt-1 ${jugadorSeleccionado?.id === j.id ? 'text-[#D0E4F7]' : 'text-gray-400'}`}>
-                    {j.comunidad} · {j.anio_nacimiento}
-                  </p>
-                </button>
+  className={`p-4 rounded-2xl border-2 text-left flex items-center gap-3 ${
+    jugadorSeleccionado?.id === j.id
+      ? 'border-[#1A5FAF] bg-[#1A5FAF] text-white'
+      : 'border-[#D0E4F7] bg-white text-[#1A5FAF]'
+  }`}>
+  {j.foto_url ? (
+    <img src={j.foto_url} alt="Foto" className="w-12 h-12 rounded-full object-cover flex-shrink-0" />
+  ) : (
+    <div className="w-12 h-12 bg-[#D0E4F7] rounded-full flex items-center justify-center text-[#1A5FAF] font-bold text-lg flex-shrink-0">
+      {j.nombre?.[0]}{j.apellidos?.[0]}
+    </div>
+  )}
+  <div>
+    <p className="font-bold text-sm">{j.nombre} {j.apellidos}</p>
+    <p className={`text-xs mt-1 ${jugadorSeleccionado?.id === j.id ? 'text-[#D0E4F7]' : 'text-gray-400'}`}>
+      {j.comunidad} · {j.anio_nacimiento}
+    </p>
+  </div>
+</button>
+                  
               ))}
             </div>
           )}
