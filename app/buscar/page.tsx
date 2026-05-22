@@ -15,6 +15,7 @@ export default function Buscar() {
   const [jugadores, setJugadores] = useState<any[]>([])
   const [buscando, setBuscando] = useState(false)
   const [buscado, setBuscado] = useState(false)
+  const [noInscrito, setNoInscrito] = useState(false)
 
  useEffect(() => {
   supabase.from('torneos').select('*').eq('activo', true).then(({ data }) => {
@@ -43,6 +44,26 @@ useEffect(() => {
   if (!torneoSeleccionado || !categoria) return
   setBuscando(true)
   setBuscado(false)
+  // Verificar que el usuario actual está inscrito
+const { data: { user } } = await supabase.auth.getUser()
+if (!user) { window.location.href = '/login'; return }
+
+const { data: miInscripcion } = await supabase
+  .from('inscripciones')
+  .select('id')
+  .eq('user_id', user.id)
+  .eq('torneo_id', torneoSeleccionado.id)
+  .eq('categoria', categoria)
+  .single()
+
+if (!miInscripcion) {
+  setJugadores([])
+  setBuscando(false)
+  setBuscado(true)
+  setNoInscrito(true)
+  return
+}
+setNoInscrito(false)
 
   const { data: inscData } = await supabase
     .from('inscripciones')
@@ -130,13 +151,24 @@ useEffect(() => {
           </button>
         )}
 
-        {buscado && jugadores.length === 0 && (
-          <div className="text-center py-12">
-            <p className="text-5xl mb-4">😔</p>
-            <p className="text-[#1A5FAF] font-bold text-lg mb-2">No hay jugadores todavía</p>
-            <p className="text-gray-400 text-sm">Sé el primero en apuntarte a este torneo y categoría.</p>
-          </div>
-        )}
+        {buscado && noInscrito && (
+  <div className="text-center py-12">
+    <p className="text-5xl mb-4">🔒</p>
+    <p className="text-[#1A5FAF] font-bold text-lg mb-2">Acceso restringido</p>
+    <p className="text-gray-400 text-sm">Solo puedes ver jugadores si también estás inscrito en este torneo y categoría.</p>
+    <a href="/apuntarse" className="inline-block mt-4 bg-[#5CB840] text-white font-bold px-6 py-3 rounded-full text-sm">
+      Apuntarme a este torneo
+    </a>
+  </div>
+)}
+
+{buscado && !noInscrito && jugadores.length === 0 && (
+  <div className="text-center py-12">
+    <p className="text-5xl mb-4">🎾</p>
+    <p className="text-[#1A5FAF] font-bold text-lg mb-2">No hay jugadores todavía</p>
+    <p className="text-gray-400 text-sm">Sé el primero en apuntarte a este torneo y categoría.</p>
+  </div>
+)}
 
         {buscado && jugadores.length > 0 && (
           <div className="flex flex-col gap-4">
