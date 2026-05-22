@@ -8,6 +8,26 @@ export default function Login() {
   const [password, setPassword] = useState('')
   const [mensaje, setMensaje] = useState('')
   const [cargando, setCargando] = useState(false)
+  const [magicEnviado, setMagicEnviado] = useState(false)
+
+async function handleMagicLink() {
+  if (!email) {
+    setMensaje('Introduce tu email primero.')
+    return
+  }
+  setCargando(true)
+  setMensaje('')
+  const { error } = await supabase.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: 'https://compinero.es/dashboard' }
+  })
+  if (error) {
+    setMensaje('Error al enviar el enlace. Comprueba el email.')
+  } else {
+    setMagicEnviado(true)
+  }
+  setCargando(false)
+}
 
   async function handleLogin() {
     setCargando(true)
@@ -76,7 +96,19 @@ export default function Login() {
         >
           {cargando ? 'Entrando...' : 'Entrar'}
         </button>
-
+{magicEnviado ? (
+  <div className="p-4 rounded-xl text-sm mb-4 bg-green-50 text-green-700 text-center">
+    📧 Enlace enviado. Revisa tu email para entrar sin contraseña.
+  </div>
+) : (
+  <button
+    onClick={handleMagicLink}
+    disabled={cargando}
+    className="w-full border-2 border-[#1A5FAF] text-[#1A5FAF] font-bold py-4 rounded-full text-base disabled:opacity-50 mb-4"
+  >
+    Entrar sin contraseña
+  </button>
+)}
         <p className="text-center text-gray-500 text-sm mb-3">
   <a href="/forgot-password" className="text-[#1A5FAF] font-bold">
     ¿Olvidaste tu contraseña?
